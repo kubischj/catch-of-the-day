@@ -3,18 +3,14 @@ import { Redirect } from "react-router";
 import { getFunName } from "../helpers";
 
 export default class StorePicker extends React.Component {
-	constructor() {
-		super();
-		this.goToStore = this.goToStore.bind(this);
-		this.state = {
-			redirect: ""
-		};
-	}
+	state = {
+		redirect: ""
+	};
 
-	goToStore(event) {
+	goToStore = (event) => {
 		event.preventDefault();
 		return this.setState({ redirect: <Redirect push to={ `/store/${ this.storeInput.value }` } /> });
-	}
+	};
 
 	render() {
 		return (

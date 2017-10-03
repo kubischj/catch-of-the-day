@@ -7,19 +7,10 @@ import Fish from "./Fish";
 import base from "../base";
 
 export default class App extends React.Component {
-	constructor() {
-		super();
-		this.state = {
-			fishes: {},
-			order: {}
-		};
-		this.addFish = this.addFish.bind(this);
-		this.updateFish = this.updateFish.bind(this);
-		this.removeFish = this.removeFish.bind(this);
-		this.loadSamples = this.loadSamples.bind(this);
-		this.addToOrder = this.addToOrder.bind(this);
-		this.removeFromOrder = this.removeFromOrder.bind(this);
-	}
+	state = {
+		fishes: {},
+		order: {}
+	};
 
 	componentWillMount() {
 		this.ref = base.syncState(`${ this.props.params.storeId }/fishes`, {
@@ -41,39 +32,39 @@ export default class App extends React.Component {
 		return localStorage.setItem(`order-${ this.props.params.storeId }`, JSON.stringify(nextState.order));
 	}
 
-	addFish(fish) {
+	addFish = (fish) => {
 		const fishes = { ...this.state.fishes };
 		fishes[`fish-${ Date.now() }`] = fish;
 		this.setState({ fishes });
 		return this.fishForm.reset();
-	}
+	};
 
-	updateFish(key, updatedFish) {
+	updateFish = (key, updatedFish) => {
 		const fishes = { ...this.state.fishes, [key]: updatedFish };
 		return this.setState({ fishes });
-	}
+	};
 
-	removeFish(key) {
+	removeFish = (key) => {
 		const fishes = { ...this.state.fishes, [key]: null };
 		this.setState({ fishes });
-	}
+	};
 
-	loadSamples() {
+	loadSamples = () => {
 		return this.setState({ fishes: { ...this.state.fishes, ...sampleFishes } });
-	}
+	};
 
-	addToOrder(key) {
+	addToOrder = (key) => {
 		const order = { ...this.state.order };
 		order[key] = order[key] + 1 || 1;
 		return this.setState({ order });
-	}
+	};
 
-	removeFromOrder(key) {
+	removeFromOrder = (key) => {
 		const order = { ...this.state.order };
 		delete order[key];
 		this.setState({ order });
 		console.log(this.state.order)
-	}
+	};
 
 	render() {
 		return (
@@ -106,8 +97,8 @@ export default class App extends React.Component {
 			</div>
 		);
 	}
-}
 
-App.porpTypes = {
-	params: React.PropTypes.object.isRequired
-};
+	static porpTypes = {
+		params: React.PropTypes.object.isRequired
+	};
+}

@@ -3,20 +3,10 @@ import base from "../base";
 import AddFishForm from "./AddFishForm";
 
 export default class Inventory extends React.Component {
-	constructor() {
-		super();
-		this.renderInventory = this.renderInventory.bind(this);
-		this.renderLogin = this.renderLogin.bind(this);
-		this.authenticate = this.authenticate.bind(this);
-		this.authHandler = this.authHandler.bind(this);
-		this.logout = this.logout.bind(this);
-		this.handleChange = this.handleChange.bind(this);
-
-		this.state = {
-			uid: null,
-			owner: null
-		}
-	}
+	state = {
+		uid: null,
+		owner: null
+	};
 
 	componentDidMount() {
 		base.onAuth(user => {
@@ -26,24 +16,24 @@ export default class Inventory extends React.Component {
 		});
 	}
 
-	handleChange(event, key) {
+	handleChange = (event, key) => {
 		const fish = this.props.fishes[key];
 		const updatedFish = { ...fish, [event.target.name]: event.target.value };
 		return this.props.updateFish(key, updatedFish);
-	}
+	};
 
-	logout() {
+	logout = () => {
 		base.unauth();
 		this.setState({
 			uid: null
 		});
-	}
+	};
 
-	authenticate(provider) {
+	authenticate = (provider) => {
 		base.authWithOAuthPopup(provider, this.authHandler);
-	}
+	};
 
-	authHandler(error, authData) {
+	authHandler = (error, authData) => {
 		if (error) {
 			console.error(error);
 			return;
@@ -63,9 +53,9 @@ export default class Inventory extends React.Component {
 				owner: data.owner || authData.user.uid
 			});
 		});
-	}
+	};
 
-	renderLogin() {
+	renderLogin = () => {
 		return (
 			<nav className="login">
 				<h2>Inventory</h2>
@@ -75,9 +65,9 @@ export default class Inventory extends React.Component {
 				</button>
 			</nav>
 		);
-	}
+	};
 
-	renderInventory(key) {
+	renderInventory = (key) => {
 		const fish = this.props.fishes[key];
 		const { removeFish } = this.props;
 		return (
@@ -108,7 +98,7 @@ export default class Inventory extends React.Component {
 				<button onClick={ () => removeFish(key) } >Remove Fish</button>
 			</div>
 		)
-	}
+	};
 
 	render() {
 		const logout = <button onClick={ this.logout }>Log Out!</button>;
@@ -135,13 +125,13 @@ export default class Inventory extends React.Component {
 			</div>
 		);
 	}
-}
 
-Inventory.propTypes = {
-	fishes: React.PropTypes.object.isRequired,
-	addFish: React.PropTypes.func.isRequired,
-	updateFish: React.PropTypes.func.isRequired,
-	removeFish: React.PropTypes.func.isRequired,
-	loadSamples: React.PropTypes.func.isRequired,
-	storeId: React.PropTypes.string.isRequired
-};
+	static propTypes = {
+		fishes: React.PropTypes.object.isRequired,
+		addFish: React.PropTypes.func.isRequired,
+		updateFish: React.PropTypes.func.isRequired,
+		removeFish: React.PropTypes.func.isRequired,
+		loadSamples: React.PropTypes.func.isRequired,
+		storeId: React.PropTypes.string.isRequired
+	};
+}
