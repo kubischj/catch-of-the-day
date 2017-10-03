@@ -29,12 +29,12 @@ export default class App extends React.Component {
 
 		const localStorageRef = localStorage.getItem(`order-${ this.props.params.storeId }`);
 		if (localStorageRef) {
-			return this.setState({ order: JSON.parse(localStorageRef) });
+			this.setState({ order: JSON.parse(localStorageRef) });
 		}
 	}
 
 	componentWillUnmount() {
-		return base.removeBinding(this.ref);
+		base.removeBinding(this.ref);
 	}
 
 	componentWillUpdate(nextProps, nextState) {

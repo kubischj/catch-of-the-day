@@ -11,7 +11,7 @@ export default class Order extends React.Component {
 	renderOrder(key) {
 		const fish = this.props.fishes[key];
 		const count = this.props.order[key];
-		const removeButton = <button onClick={ this.props.removeFromOrder(key) } >&times;</button>;
+		const removeButton = <button onClick={ () => this.props.removeFromOrder(key) } >&times;</button>;
 
 		if (!fish || fish.status === "unavailable") {
 			return (
@@ -58,7 +58,7 @@ export default class Order extends React.Component {
 				                    transitionName="order"
 				                    transitionEnterTimeout={500}
 				                    transitionLeaveTimeout={500}>
-					{ orderIds.map(this.renderOrder) }
+					{ orderIds.map(key => this.renderOrder(key)) }
 					<li className="total">
 						<strong>Total:</strong>
 						{ formatPrice(total) }
